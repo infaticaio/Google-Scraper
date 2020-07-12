@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+
+{% block app_container %}
+<div class="container">
+    <div class="center-block">
+        <div class="col-lg-12">
+            <h1 class="page-header">Google parser</h1>
+
+            <form id="process" action="/process/" method="post">
+                <div class="row" style="text-align: left;">
+                    <div class="col-sm-6 form-group">
+                        <h5 style="text-align: left">Count of threads:</h5>
+                        <input class="form-control" id="threads" type="number" min="0" max="100" name="threads"
+                               value="4">
+                        <small class="form-text text-muted">Max count of threads is 100</small>
+                    </div>
+                </div>
+                <div class="row" style="text-align: left;">
+                    <div class="col-sm-6 form-group">
+                        <h5 style="text-align: left">Set up type of proxy:</h5>
+                        <input class="form-control" id="proxies_type" name="proxies_type" type="text"
+                               value="http">
+                    </div>
+                </div>
+                <div class="row" style="text-align: left;">
+                    <div class="col-sm-6 form-group">
+                        <h5 style="text-align: left">Max Pages:</h5>
+                        <input class="form-control" id="max_pages" type="number" min="0" max="100" name="max_pages"
+                               value="4">
+                    </div>
+                </div>
+                <div class="row" style="text-align: left;">
+                    <div class="col-sm-6 form-group">
+                        <h5 style="text-align: left">Get Page trying:</h5>
+                        <input class="form-control" id="get_page_tryings" type="number" min="0" max="100"
+                               name="get_page_tryings"
+                               value="3">
+                    </div>
+                </div>
+                <div class="row" style="text-align: left;">
+                    <div class="col-sm-6 form-group">
+                        <h5 style="text-align: left">Result per page:</h5>
+
+                        <input class="form-control" id="results_peer_page" type="number" min="0"
+                               name="results_peer_page"
+                               value="100">
+                    </div>
+                </div>
+                <div class="row" style="text-align: left;">
+                    <div class="col-sm-6 form-group">
+                        <h5 style="text-align: left">Language:</h5>
+
+                        <input class="form-control" id="language" name="language" type="text"
+                               value="en">
+                    </div>
+                </div>
+                <div class="row" style="text-align: left;">
+                    <div class="col-sm-6 form-group">
+                        <h5 style="text-align: left">Region:</h5>
+
+                        <input class="form-control" id="region" name="region" type="text"
+                               value="ZZ">
+                    </div>
+                </div>
+                <div class="row" style="text-align: left;">
+                    <div class="col-sm-6 form-group">
+                        <h5 style="text-align: left">Timeout:</h5>
+
+                        <input class="form-control" id="timeout" type="number" min="0" name="timeout"
+                               value="60">
+                    </div>
+                </div>
+                <div class="row" style="text-align: left;">
+                    <div class="col-sm-6 form-group">
+                        <h5 style="text-align: left">Queries file:</h5>
+
+                        <input class="form-control" id="queries_file" name="queries_file" type="text"
+                               value="queries.txt">
+                    </div>
+                </div>
+                <div class="row" style="text-align: left;">
+                    <div class="col-sm-6 form-group">
+                        <h5 style="text-align: left">User agents file:</h5>
+
+                        <input class="form-control" id="users_agents_file" name="users_agents_file" type="text"
+                               value="users-agents.txt">
+                    </div>
+                </div>
+                <div class="row" style="text-align: left;">
+                    <div class="col-sm-6 form-group">
+                        <h5 style="text-align: left">Proxies file:</h5>
+
+                        <input class="form-control" id="proxies_file" name="proxies_file" type="text"
+                               value="proxies.txt">
+                    </div>
+                </div>
+                <div class="row" style="text-align: left;">
+                    <div class="col-sm-6 form-group">
+                        <h5 style="text-align: left">Output file:</h5>
+
+                        <input class="form-control" id="out_filename" name="out_filename" type="text"
+                               value="out.csv">
+                    </div>
+                </div>
+                <div class="row" style="text-align: left;">
+                    <div class="col-sm-6 form-group">
+                        <button id="checkerBtn" class="btn btn-primary" type="submit">Run Check
+                        </button>
+                        <a id="dwnld" style="visibility: hidden" href="">Download out file</a>
+                    </div>
+                </div>
+            </form>
+
+            <div>
+                <img id="image" src="{{ url_for('static', path='img/loading.gif') }}" style="visibility: hidden" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#process").on("submit", function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr("action"),
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    threads: $("#threads").val(),
+                    proxies_type: $("#proxies_type").val(),
+                    max_pages: $("#max_pages").val(),
+                    get_page_tryings: $("#get_page_tryings").val(),
+                    results_peer_page: $("#results_peer_page").val(),
+                    language: $("#language").val(),
+                    region: $("#region").val(),
+                    timeout: $("#timeout").val(),
+                    queries_file: $("#queries_file").val(),
+                    users_agents_file: $("#users_agents_file").val(),
+                    proxies_file: $("#proxies_file").val(),
+                    out_filename: $("#out_filename").val(),
+                }),
+                beforeSend: function (data) {
+                    $("#image").css('visibility', 'visible');
+                },
+                success: function (data) {
+                    $("#dwnld").css('visibility', 'visible');
+                    $('#dwnld').attr("href", "out/" + $("#out_filename").val())
+                    $("#image").css('visibility', 'hidden');
+                }
+            });
+        });
+    });
+
+</script>
+
+{% endblock %}
