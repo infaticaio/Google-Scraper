@@ -113,6 +113,7 @@
             </form>
 
             <div>
+                <h5 id="date_start"></h5>
                 <img id="image" src="{{ url_for('static', path='img/loading.gif') }}" style="visibility: hidden" alt="">
             </div>
         </div>
@@ -142,6 +143,9 @@
                 }),
                 beforeSend: function (data) {
                     $("#image").css('visibility', 'visible');
+
+                    let date = new Date();
+                    $("#date_start").text("Дата запуска: " + date.toUTCString())
                 },
                 success: function (data) {
                     $("#dwnld").css('visibility', 'visible');
