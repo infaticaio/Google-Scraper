@@ -33,10 +33,10 @@ def parse(query, body):
 
     session = requests.Session()
 
-    # session.proxies = {
-    #     "http": f"{body.proxies_type}://{proxy}",
-    #     "https": f"{body.proxies_type}://{proxy}",
-    # }
+    session.proxies = {
+        "http": f"{body.proxies_type}://{proxy}",
+        "https": f"{body.proxies_type}://{proxy}",
+    }
 
     results = []
     resultsAds = []
