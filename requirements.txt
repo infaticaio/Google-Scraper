@@ -23,7 +23,7 @@ soupsieve==2.0.1
 starlette==0.13.4
 urllib3==1.25.9
 user-agent==0.1.9
-uvicorn==0.11.5
+uvicorn==0.11.7
 uvloop==0.14.0
 weblib==0.1.30
 websockets==8.1
