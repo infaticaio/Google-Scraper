@@ -26,4 +26,4 @@ user-agent==0.1.9
 uvicorn==0.11.7
 uvloop==0.14.0
 weblib==0.1.30
-websockets==8.1
+websockets==9.1
